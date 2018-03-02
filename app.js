@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
+const search = require('./routes/search');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'demonette-frontend/dist')));
 
 app.use('/', index);
+app.use('/', search);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
