@@ -1,6 +1,6 @@
 ################## BEGIN INSTALLATION ######################
 # Set the base image to ubuntu
-FROM node:latest
+FROM node:9.7.0
 WORKDIR /src/
 
 # File Author / Maintainer
