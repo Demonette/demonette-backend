@@ -5,11 +5,10 @@ const elasticEnv = process.env.ELASTIC_DEMONETTE;
 
 const client = new elasticsearch.Client({
   host: `${elasticEnv}`,
-  log: 'trace',
 });
 
-module.exports = function searchOnElasticDb(token, res) {
-  client.search({
+module.exports = function searchOnElasticDb(token) {
+  return client.search({
     index: 'demonette',
     type: 'relation',
     body: {
@@ -20,7 +19,6 @@ module.exports = function searchOnElasticDb(token, res) {
             },
           },
     },
-  }).then(resp => res.status(200).send(resp.hits.hits))
-    .catch(err => res.status(400).send(err));
+  }).then(resp => resp.hits.hits);
 };
 
