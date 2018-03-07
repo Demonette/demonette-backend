@@ -9,32 +9,49 @@ const client = new elasticsearch.Client({
 });
 
 module.exports = function searchOnElasticDb(token) {
+  const sort = [
+    {
+      '_score': {
+        'order': 'asc',
+      },
+    },
+  ];
+
+  const query = {
+    bool: {
+      must: {
+        'multi_match': {
+          'operator': 'and',
+          'type': 'cross_fields',
+          'query': token,
+          'fields': [
+            'graphie_1',
+            'graphie_2',
+            'def_conc',
+            'def_abs',
+          ],
+        },
+      },
+      should: {
+        'multi_match': {
+          'operator': 'and',
+          'query': token,
+          'fields': [
+            'graphie_1',
+            'graphie_2^300',
+          ],
+        },
+      },
+    },
+  };
   return client.search({
     index: 'demonette',
     type: 'relation',
     body: {
-      'query':
-          {
-            'multi_match': {
-              'query': token,
-              'fields': ['graphie_1', 'graphie_2', 'def_conc', 'def_abs'],
-            },
-          },
-      'aggs': {
-        'dedup': {
-          'terms': {
-            'field': '_uid',
-          },
-          'aggs': {
-            'dedup_docs': {
-              'top_hits': {
-                'size': 1,
-              },
-            },
-          },
-        },
-      },
+      'query': query,
+      'sort': sort,
     },
+    size: 50,
   }).then(resp => resp.hits.hits);
 };
 
