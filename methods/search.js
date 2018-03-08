@@ -38,7 +38,7 @@ module.exports = function searchOnElasticDb(token) {
           'query': token,
           'fields': [
             'graphie_1',
-            'graphie_2^300',
+            'graphie_2',
           ],
         },
       },
