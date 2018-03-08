@@ -3,6 +3,8 @@
 FROM node:9.7.0
 WORKDIR /src/
 
+ENV ELASTIC_DEMONETTE http://localhost:9200
+
 # File Author / Maintainer
 MAINTAINER Simon Meoni
 
@@ -12,4 +14,4 @@ RUN  npm install
 
 ##################### INSTALLATION END #####################
 EXPOSE 3000
-CMD npm start
+CMD npm start ELASTIC_DEMONETTE=$ELASTIC_DEMONETTE
