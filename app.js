@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
 const search = require('./routes/search');
+const autocomplete = require('./routes/autocomplete');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'demonette-frontend/dist')));
 
 app.use('/', index);
 app.use('/', search);
+app.use('/', autocomplete);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
