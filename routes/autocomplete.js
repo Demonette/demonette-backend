@@ -4,7 +4,7 @@ const autocomplete = require('../methods/autocomplete');
 const router = express.Router();
 
 router.get('/autocomplete', (req, res) => {
-  autocomplete(req.query.token)
+  autocomplete(req.query.token, req.query.field)
     .then(resp => res.status(200).send(resp))
     .catch(resp => res.status(400).send(resp));
 });

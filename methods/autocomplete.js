@@ -8,40 +8,37 @@ const client = new elasticsearch.Client({
   log: 'trace',
 });
 
-module.exports = function searchOnElasticDb(token) {
+module.exports = function searchOnElasticDb(token, field) {
   const aggs = {
     'dedup': {
       'terms': {
-        'field': 'type_1',
+        'field': field,
       },
       'aggs': {
         'dedup_docs': {
           'top_hits': {
             'size': 1,
-            '_source': 'type_1',
+            '_source': field,
           },
         },
       },
     },
   };
   const query = {
-    'multi_match': {
-      'query': token,
-      'type': 'phrase_prefix',
-      'fields': [
-        'type_1',
-      ],
+    'query_string': {
+      'query': `*${token}*`,
+      'fields': [field],
     },
   };
   return client.search({
     index: 'demonette',
     type: 'relation',
-    _source: ['type_1'],
+    _source: field,
     body: {
       'size': 0,
       'query': query,
       'aggs': aggs,
     },
   }).then(resp => resp.aggregations.dedup.buckets.map(aggregation =>
-    (aggregation.dedup_docs.hits.hits[0]._source.type_1)));
+    (aggregation.dedup_docs.hits.hits[0]._source[field])));
 };
