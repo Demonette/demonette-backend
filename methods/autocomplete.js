@@ -74,9 +74,15 @@ function format(res) {
 module.exports = function autocomplete(token) {
   return searchTokenInField('type_1', token, {})
     .then(res => searchTokenInField('type_2', token, res))
+    .then(res => searchTokenInField('type_constr_1', token, res))
+    .then(res => searchTokenInField('type_constr_2', token, res))
     .then(res => searchTokenInField('graphie_1', token, res))
     .then(res => searchTokenInField('graphie_2', token, res))
+    .then(res => searchTokenInField('cat_1', token, res))
+    .then(res => searchTokenInField('cat_2', token, res))
+    .then(res => searchTokenInField('constr_1', token, res))
+    .then(res => searchTokenInField('constr_2', token, res))
+    .then(res => searchTokenInField('complexite', token, res))
     .then(res => searchTokenInField('orientation', token, res))
     .then(res => format(res));
 };
-
