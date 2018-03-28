@@ -8,7 +8,7 @@ const client = new elasticsearch.Client({
   log: 'trace',
 });
 
-module.exports = function searchOnElasticDb(token) {
+module.exports = function searchOnElasticDb(token, size, from) {
   const sort = [
     {
       '_score': {
@@ -55,11 +55,12 @@ module.exports = function searchOnElasticDb(token) {
   return client.search({
     index: 'demonette',
     type: 'relation',
+    size,
+    from,
     body: {
       'query': query,
       'sort': sort,
     },
-    size: 50,
-  }).then(resp => resp.hits.hits);
+  }).then(resp => resp);
 };
 
