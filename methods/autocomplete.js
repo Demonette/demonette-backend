@@ -19,7 +19,7 @@ function searchTokenInField(field, token, acObject) {
   const aggs = {
     'dedup': {
       'terms': {
-        'size': 8,
+        'size': 20,
         'field': `${field}`,
       },
       'aggs': {
