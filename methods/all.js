@@ -1,5 +1,6 @@
 /* eslint-disable quote-props */
 const elasticsearch = require('elasticsearch');
+const { createAggregation } = require('../methods/search');
 
 const elasticEnv = process.env.ELASTIC_DEMONETTE;
 
@@ -7,7 +8,6 @@ const client = new elasticsearch.Client({
   host: `${elasticEnv}`,
   log: 'trace',
 });
-
 module.exports = function getAll(size, from) {
   return client.search({
     index: 'demonette',
@@ -18,6 +18,7 @@ module.exports = function getAll(size, from) {
       query: {
         match_all: {},
       },
+      aggs: createAggregation(),
     },
   }).then(resp => resp);
 };
