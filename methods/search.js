@@ -37,6 +37,8 @@ module.exports = function searchOnElasticDb(token, size, from) {
             'constr_2',
             'def_conc',
             'def_abs',
+            'orientation',
+            'complexite',
           ],
         },
       },
