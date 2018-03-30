@@ -1,12 +1,11 @@
 /* eslint-disable quote-props */
 const elasticsearch = require('elasticsearch');
-const { createAggregation } = require('../methods/search');
+const { createAggregation, format } = require('../methods/search');
 
 const elasticEnv = process.env.ELASTIC_DEMONETTE;
 
 const client = new elasticsearch.Client({
   host: `${elasticEnv}`,
-  log: 'trace',
 });
 module.exports = function getAll(size, from) {
   return client.search({
@@ -20,5 +19,5 @@ module.exports = function getAll(size, from) {
       },
       aggs: createAggregation(),
     },
-  }).then(resp => resp);
+  }).then(resp => format(resp));
 };
