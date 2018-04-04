@@ -34,13 +34,13 @@ function formatAggs(resp) {
   return res;
 }
 
-function createAggregation() {
+function createAggregation(token) {
   const aggs = {};
   fields.forEach((el) => {
     aggs[el] = {
       'terms': {
         'field': el,
-        'size': 30,
+        'include': `${token}.*`,
       },
       'aggs': {
         'dedup_docs': {
@@ -58,7 +58,7 @@ function searchTokenInField(token) {
   const query = {
     'query_string': {
       'fields': fields,
-      'query': `*${token}*`,
+      'query': `${token}*`,
     },
   };
 
@@ -68,7 +68,7 @@ function searchTokenInField(token) {
     body: {
       'query': query,
       'size': 0,
-      'aggs': createAggregation(),
+      'aggs': createAggregation(token),
     },
   });
 }
@@ -87,8 +87,7 @@ function format(res) {
   return res;
 }
 
-
 module.exports = function autocomplete(token) {
-  return searchTokenInField(token)
+  return searchTokenInField(token.toLocaleLowerCase())
     .then(res => format(formatAggs(res)));
 };
