@@ -19,5 +19,5 @@ module.exports = function getAll(size, from) {
       },
       aggs: createAggregation(),
     },
-  }).then(resp => format(resp));
+  }).then(resp => resp);
 };

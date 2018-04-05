@@ -63,7 +63,7 @@ module.exports = {
         sort,
         aggs: module.exports.createAggregation(),
       },
-    }).then(resp => module.exports.format(resp));
+    }).then(resp => resp);
   },
   createAggregation() {
     const aggs = {};
