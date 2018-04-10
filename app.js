@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 
 const all = require('./routes/all');
 const search = require('./routes/search');
+const graph = require('./routes/graph');
 const autocomplete = require('./routes/autocomplete');
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', search);
 app.use('/', all);
+app.use('/', graph);
 app.use('/', autocomplete);
 
 // catch 404 and forward to error handler
