@@ -33,9 +33,6 @@ module.exports = {
       .map(el => Object.values(el._source))
       .reduce((p, c) => p.concat(c)))
       .then(c => Array.from(new Set(c)))
-      .then((c) => {
-        c.splice(c.indexOf(token), 1);
-        return c;
-      });
+      .then(c => ({ [token]: c }));
   },
 };
