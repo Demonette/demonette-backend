@@ -60,7 +60,6 @@ function graphRequest(start, range, tokens, nodeLinks) {
   return Promise
     .all(tokens.map(t => elasticTokenQuery(t)))
     .then((res) => {
-      console.log(`start : ${typeof start}`);
       // eslint-disable-next-line no-param-reassign
       res.forEach((g) => { nodeLinks = Object.assign(nodeLinks, g); });
       const nMap = [];
