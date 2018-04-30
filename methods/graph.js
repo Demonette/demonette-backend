@@ -60,18 +60,20 @@ function graphRequest(start, range, tokens, nodeLinks) {
   return Promise
     .all(tokens.map(t => elasticTokenQuery(t)))
     .then((res) => {
+      console.log(`start : ${typeof start}`);
       // eslint-disable-next-line no-param-reassign
       res.forEach((g) => { nodeLinks = Object.assign(nodeLinks, g); });
       const nMap = [];
       res.forEach(e => Object.values(e).forEach(a => a.forEach(b => nMap.push(b))));
       return [...(new Set(nMap))];
     })
-    .then(e => (this.start < this.range ?
-      graphRequest(this.start + 1, this.range, e, nodeLinks) : nodeLinks));
+    .then(e => (start < range ?
+      graphRequest(start + 1, range, e, nodeLinks) : nodeLinks));
 }
 
 module.exports = {
   graph(start, range, tokens) {
-    return graphRequest(start, range, ['branler', 'branlage'], {}).then(n => formatNodeLinks(n, tokens));
+    return graphRequest(Number(start), Number(range), tokens, {})
+      .then(n => formatNodeLinks(n, tokens));
   },
 };
