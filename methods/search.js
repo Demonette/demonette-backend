@@ -37,14 +37,14 @@ module.exports = {
           'multi_match': {
             'operator': 'and',
             'type': 'cross_fields',
-            'query': token,
+            'query': token.replace(/,/g, ' '),
             'fields': fields,
           },
         },
         should: {
           'multi_match': {
             'operator': 'and',
-            'query': token,
+            'query': token.replace(/,/g, ' '),
             'fields': [
               'graphie_1',
               'graphie_2',
@@ -100,4 +100,3 @@ module.exports = {
     return res;
   },
 };
-

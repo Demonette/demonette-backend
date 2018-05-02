@@ -40,7 +40,7 @@ function createAggregation(token) {
     aggs[el] = {
       'terms': {
         'field': el,
-        'include': `${token}.*`,
+        'include': `"${token}".*`,
       },
       'aggs': {
         'dedup_docs': {
@@ -58,7 +58,7 @@ function searchTokenInField(token) {
   const query = {
     'query_string': {
       'fields': fields,
-      'query': `${token}*`,
+      'query': `"${token}"*`,
     },
   };
 
