@@ -15,16 +15,16 @@ const sort = [
   },
 ];
 const fields = [
-  'type_1',
-  'graphie_1',
-  'cat_1',
-  'type_constr_1',
-  'constr_1',
-  'type_2',
-  'graphie_2',
-  'cat_2',
-  'type_constr_2',
-  'constr_2',
+  'typeSemantique_1',
+  'graph_1',
+  'categorie_1',
+  'typeConstruction_1',
+  'construction_1',
+  'typeSemantique_2',
+  'graph_2',
+  'categorie_2',
+  'typeConstruction_2',
+  'construction_2',
   'orientation',
   'complexite',
 ];
@@ -37,17 +37,17 @@ module.exports = {
           'multi_match': {
             'operator': 'and',
             'type': 'cross_fields',
-            'query': token,
+            'query': token.replace(/,/g, ' '),
             'fields': fields,
           },
         },
         should: {
           'multi_match': {
             'operator': 'and',
-            'query': token,
+            'query': token.replace(/,/g, ' '),
             'fields': [
-              'graphie_1',
-              'graphie_2',
+              'graph1',
+              'graph2',
             ],
           },
         },
@@ -63,7 +63,7 @@ module.exports = {
         sort,
         aggs: module.exports.createAggregation(),
       },
-    }).then(resp => module.exports.format(resp));
+    }).then(resp => resp);
   },
   createAggregation() {
     const aggs = {};
@@ -100,4 +100,3 @@ module.exports = {
     return res;
   },
 };
-

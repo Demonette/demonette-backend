@@ -8,16 +8,16 @@ const client = new elasticsearch.Client({
 });
 
 const fields = [
-  'type_1',
-  'graphie_1',
-  'cat_1',
-  'type_constr_1',
-  'constr_1',
-  'type_2',
-  'graphie_2',
-  'cat_2',
-  'type_constr_2',
-  'constr_2',
+  'typeSemantique_1',
+  'graph_1',
+  'categorie_1',
+  'typeConstruction_1',
+  'construction_1',
+  'typeSemantique_2',
+  'graph_2',
+  'categorie_2',
+  'typeConstruction_2',
+  'construction_2',
   'orientation',
   'complexite',
 ];
@@ -34,13 +34,13 @@ function formatAggs(resp) {
   return res;
 }
 
-function createAggregation() {
+function createAggregation(token) {
   const aggs = {};
   fields.forEach((el) => {
     aggs[el] = {
       'terms': {
         'field': el,
-        'size': 30,
+        'include': `"${token}".*`,
       },
       'aggs': {
         'dedup_docs': {
@@ -58,7 +58,7 @@ function searchTokenInField(token) {
   const query = {
     'query_string': {
       'fields': fields,
-      'query': `*${token}*`,
+      'query': `"${token}"*`,
     },
   };
 
@@ -68,7 +68,7 @@ function searchTokenInField(token) {
     body: {
       'query': query,
       'size': 0,
-      'aggs': createAggregation(),
+      'aggs': createAggregation(token),
     },
   });
 }
@@ -87,8 +87,7 @@ function format(res) {
   return res;
 }
 
-
 module.exports = function autocomplete(token) {
-  return searchTokenInField(token)
+  return searchTokenInField(token.toLocaleLowerCase())
     .then(res => format(formatAggs(res)));
 };

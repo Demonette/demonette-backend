@@ -5,10 +5,11 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
-const index = require('./routes/index');
 const all = require('./routes/all');
 const search = require('./routes/search');
+const graph = require('./routes/graph');
 const autocomplete = require('./routes/autocomplete');
 
 const app = express();
@@ -20,15 +21,14 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'demonette-frontend/dist')));
-
-app.use('/', index);
 app.use('/', search);
 app.use('/', all);
+app.use('/', graph);
 app.use('/', autocomplete);
 
 // catch 404 and forward to error handler
