@@ -36,7 +36,7 @@ function elasticTokenQuery(token) {
       query: {
         multi_match: {
           query: token,
-          fields: ['graphie_*'],
+          fields: ['graph_*'],
         },
       },
       size: 0,
@@ -44,7 +44,7 @@ function elasticTokenQuery(token) {
         graphie: {
           top_hits: {
             size: 10,
-            _source: ['graphie_*'],
+            _source: ['graph_*'],
           },
         },
       },
