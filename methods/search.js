@@ -85,18 +85,4 @@ module.exports = {
     });
     return aggs;
   },
-  format(res) {
-    const aggs = res.aggregations;
-    Object.keys(aggs).forEach((el) => {
-      const resKey = el.split('_').slice(0, -1).join('_');
-      if (el.slice(-1).match(/[0-9]/g)) {
-        if (!(resKey in aggs)) {
-          aggs[resKey] = [];
-        }
-        aggs[resKey] = aggs[el];
-        delete aggs[el];
-      }
-    });
-    return res;
-  },
 };

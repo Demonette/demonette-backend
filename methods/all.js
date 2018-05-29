@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 const elasticsearch = require('elasticsearch');
-const { createAggregation, format } = require('../methods/search');
+const { createAggregation } = require('../methods/search');
 
 const elasticEnv = process.env.ELASTIC_DEMONETTE;
 
