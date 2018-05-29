@@ -27,6 +27,7 @@ const fields = [
   'construction_2',
   'orientation',
   'complexite',
+  'origineCouple',
 ];
 
 module.exports = {
