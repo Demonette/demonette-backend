@@ -1,10 +1,10 @@
 const express = require('express');
-const all = require('../methods/all');
+const source = require('../methods/source');
 
 const router = express.Router();
 
-router.get('/all', (req, res) => {
-  all(req.query.size, req.query.from, req.query.originFilter)
+router.get('/source', (req, res) => {
+  source()
     .then(resp => res.status(200).send(resp))
     .catch(resp => res.status(400).send(resp));
 });

@@ -27,11 +27,11 @@ const fields = [
   'construction_2',
   'orientation',
   'complexite',
-  'origineCouple',
 ];
 
 module.exports = {
-  searchOnElasticDb(token, size, from) {
+  searchOnElasticDb(token, size, from, originFilter) {
+   console.log(originFilter.split(','));
     const query = {
       bool: {
         must: {
@@ -40,6 +40,11 @@ module.exports = {
             'type': 'cross_fields',
             'query': token.replace(/,/g, ' '),
             'fields': fields,
+          },
+        },
+        'filter': {
+          'terms': {
+            'origineCouple': originFilter.split(','),
           },
         },
         should: {
