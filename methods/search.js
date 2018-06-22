@@ -31,7 +31,6 @@ const fields = [
 
 module.exports = {
   searchOnElasticDb(token, size, from, originFilter) {
-   console.log(originFilter.split(','));
     const query = {
       bool: {
         must: {

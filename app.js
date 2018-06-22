@@ -14,6 +14,7 @@ const autocomplete = require('./routes/autocomplete');
 const source = require('./routes/source');
 
 const app = express();
+const urlRootPath = process.env.URL_ROOT_PATH;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,11 +28,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', search);
-app.use('/', all);
-app.use('/', graph);
-app.use('/', autocomplete);
-app.use('/', source);
+app.use(urlRootPath, search);
+app.use(urlRootPath, all);
+app.use(urlRootPath, graph);
+app.use(urlRootPath, autocomplete);
+app.use(urlRootPath, source);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
