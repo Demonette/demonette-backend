@@ -59,7 +59,7 @@ module.exports = {
       },
     };
     return client.search({
-      index: 'demonette',
+      index: process.env.PREFIX,
       type: 'relation',
       size,
       from,

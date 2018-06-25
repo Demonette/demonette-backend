@@ -9,7 +9,7 @@ const client = new elasticsearch.Client({
 });
 module.exports = function getAll(size, from, originFilter) {
   return client.search({
-    index: 'demonette',
+    index: process.env.PREFIX,
     type: 'relation',
     size,
     from,

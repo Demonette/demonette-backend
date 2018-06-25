@@ -7,7 +7,7 @@ const client = new elasticsearch.Client({
 });
 module.exports = function getOrigine() {
   return client.search({
-    index: 'demonette',
+    index: process.env.PREFIX,
     type: 'relation',
     body: {
       query: {

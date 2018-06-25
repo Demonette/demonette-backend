@@ -63,7 +63,7 @@ function searchTokenInField(token) {
   };
 
   return client.search({
-    index: 'demonette',
+    index: process.env.PREFIX,
     type: 'relation',
     body: {
       'query': query,
