@@ -27,6 +27,7 @@ const fields = [
   'construction_2',
   'orientation',
   'complexite',
+  'relationPhonologiqueAbstraite',
 ];
 
 module.exports = {
