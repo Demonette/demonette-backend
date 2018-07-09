@@ -1,32 +1,26 @@
 /* eslint-disable quote-props */
 const elasticsearch = require('elasticsearch');
-const { createAggregation } = require('../methods/search');
 
 const elasticEnv = process.env.ELASTIC_DEMONETTE;
-
 const client = new elasticsearch.Client({
   host: `${elasticEnv}`,
 });
-module.exports = function getAll(size, from, originFilter) {
+module.exports = function getOrigine() {
   return client.search({
     index: process.env.PREFIX,
     type: 'relation',
-    size,
-    from,
     body: {
       query: {
-        bool: {
-          must: {
-            match_all: {},
-          },
-          filter: {
-            'terms': {
-              'origineCouple': originFilter.split(','),
-            },
+        match_all: {},
+      },
+      size: 0,
+      aggs: {
+        origin: {
+          'terms': {
+            'field': 'origineCouple',
           },
         },
       },
-      aggs: createAggregation(),
     },
   }).then(resp => resp);
 };

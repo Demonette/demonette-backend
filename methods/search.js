@@ -27,10 +27,11 @@ const fields = [
   'construction_2',
   'orientation',
   'complexite',
+  'relationPhonologiqueAbstraite',
 ];
 
 module.exports = {
-  searchOnElasticDb(token, size, from) {
+  searchOnElasticDb(token, size, from, originFilter) {
     const query = {
       bool: {
         must: {
@@ -39,6 +40,11 @@ module.exports = {
             'type': 'cross_fields',
             'query': token.replace(/,/g, ' '),
             'fields': fields,
+          },
+        },
+        'filter': {
+          'terms': {
+            'origineCouple': originFilter.split(','),
           },
         },
         should: {
@@ -54,7 +60,7 @@ module.exports = {
       },
     };
     return client.search({
-      index: 'demonette',
+      index: process.env.PREFIX,
       type: 'relation',
       size,
       from,
@@ -84,19 +90,5 @@ module.exports = {
       aggs[`count-${el}`] = { 'value_count': { 'field': el } };
     });
     return aggs;
-  },
-  format(res) {
-    const aggs = res.aggregations;
-    Object.keys(aggs).forEach((el) => {
-      const resKey = el.split('_').slice(0, -1).join('_');
-      if (el.slice(-1).match(/[0-9]/g)) {
-        if (!(resKey in aggs)) {
-          aggs[resKey] = [];
-        }
-        aggs[resKey] = aggs[el];
-        delete aggs[el];
-      }
-    });
-    return res;
   },
 };

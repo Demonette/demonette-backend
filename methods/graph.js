@@ -30,7 +30,7 @@ function formatNodeLinks(nodeLinks, rootTokens) {
 
 function elasticTokenQuery(token) {
   return client.search({
-    index: 'demonette',
+    index: process.env.PREFIX,
     type: 'relation',
     body: {
       query: {
