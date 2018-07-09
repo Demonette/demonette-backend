@@ -12,6 +12,7 @@ const search = require('./routes/search');
 const graph = require('./routes/graph');
 const autocomplete = require('./routes/autocomplete');
 const source = require('./routes/source');
+const version = require('./routes/version');
 
 const app = express();
 const urlRootPath = process.env.URL_ROOT_PATH;
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(urlRootPath, version);
 app.use(urlRootPath, search);
 app.use(urlRootPath, all);
 app.use(urlRootPath, graph);
